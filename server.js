@@ -6700,6 +6700,13 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // ---------- Earworm Web 版（PWA 静态资源） ----------
+  if (pn.startsWith('/app')) {
+    const sub = pn === '/app' || pn === '/app/' ? '/index.html' : pn.slice('/app'.length);
+    serveStatic(res, path.join(__dirname, 'earworm', sub));
+    return;
+  }
+
   let filePath = pn === '/' ? '/index.html' : pn;
   filePath = path.join(__dirname, 'public', filePath);
   serveStatic(res, filePath);
